@@ -29,12 +29,25 @@ body {
   border: none;
   border-radius: 4px;
   text-decoration: none;
-  display: inline-block; /* Ensure anchor tag acts like a button */
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
 }
 
-/* --- Task 2 Requirement: The Hiding Class --- */
-/* This class must be defined to enable the toggle functionality later. */
+#control-panel a:hover,
+#control-panel button:hover {
+  background-color: #0056b3;
+}
+
+/* Timestamp styling (extra polish) */
+#status-output span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #333;
+}
+
+/* REQUIRED hidden class */
 .hidden {
-  /* Sets the element to be completely invisible and not take up space. */
   display: none;
 }

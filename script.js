@@ -1,40 +1,86 @@
 // Task 1: Verification Log
+console.log("Status Manager Started");
 
-// Global variable setup (required for Task 10 using setInterval/clearInterval)
+// Global variable for timer
 let intervalId = null;
 
-// Use const to target required elements for easier access later in the script
-// We use querySelector or getElementById to retrieve specific DOM nodes [3].
+// DOM selections
 const mainTitle = document.querySelector("#main-title");
 const toggleButton = document.getElementById("toggle-button");
 const statusOutput = document.querySelector("#status-output");
 const timerButton = document.getElementById("timer-button");
 const controlPanel = document.getElementById("control-panel");
-const itemList = document.getElementById("item-list");
 
 /* ======================================= */
-// --- Task 3: Selecting and Changing Inner HTML ---
-// Write the code here to select the mainTitle and update its innerHTML:
-// Example: mainTitle.innerHTML = "New Title";
+// Task 3: Modify Content on Load
+mainTitle.innerHTML = "DOM Project: Ready!";
 
 /* ======================================= */
-// --- Task 4: Attribute Modification ---
-// Write the code here to use setAttribute() on the toggleButton element
-// to add the required 'data-action' attribute.
+// Task 4: Attribute Modification
+toggleButton.setAttribute("data-action", "status-toggle");
 
 /* ======================================= */
-// --- Task 9: Looping and Applying Changes ---
-// Define and call the highlightListItems() function here so it runs on load.
-// You will need to use document.querySelectorAll('li') and a loop structure
-// (like a 'for' loop or 'forEach') to iterate over all list items [3-5].
+// Task 9: Highlight List Items
+function highlightListItems() {
+  const items = document.querySelectorAll("#item-list li");
+
+  items.forEach(function (item) {
+    item.style.color = "blue";
+  });
+}
+
+// Run on load
+highlightListItems();
 
 /* ======================================= */
-// --- Tasks 5, 6, 7 & 8: Toggle Functionality ---
-// Define the functions (e.g., toggleStatus, createTimestamp) and event listeners
-// here to handle the click event on the toggleButton [6, 7].
+// Task 8: Create Timestamp
+function createTimestamp() {
+  const span = document.createElement("span");
+  span.innerHTML = "Updated at: " + new Date().toLocaleTimeString();
+  statusOutput.appendChild(span);
+}
 
 /* ======================================= */
-// --- Task 10: Timed Animation ---
-// Define the startFlashing() and stopFlashing() functions using
-// setInterval() and clearInterval() [8, 9], and bind them to the
-// timerButton using addEventListener for 'click' and 'dblclick' [10].
+// Tasks 5, 6, 7: Toggle Function
+function toggleStatus(e) {
+  // Task 6: Prevent default anchor behavior
+  e.preventDefault();
+
+  // Toggle visibility
+  statusOutput.classList.toggle("hidden");
+
+  // Check visibility
+  const isVisible = !statusOutput.classList.contains("hidden");
+
+  if (isVisible) {
+    // Task 7: Change background
+    mainTitle.style.backgroundColor = "yellow";
+
+    // Task 8: Add timestamp
+    createTimestamp();
+  } else {
+    mainTitle.style.backgroundColor = "";
+  }
+}
+
+// Event listener
+toggleButton.addEventListener("click", toggleStatus);
+
+/* ======================================= */
+// Task 10: Timer Functions
+function startFlashing() {
+  if (intervalId !== null) return; // prevent multiple timers
+
+  intervalId = setInterval(() => {
+    controlPanel.classList.toggle("hidden");
+  }, 500);
+}
+
+function stopFlashing() {
+  clearInterval(intervalId);
+  intervalId = null;
+}
+
+// Event bindings
+timerButton.addEventListener("click", startFlashing);
+timerButton.addEventListener("dblclick", stopFlashing);
